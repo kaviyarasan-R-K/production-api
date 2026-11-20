@@ -67,6 +67,14 @@ app = FastAPI(
 app.state.limiter = limiter
 app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
 
+@app.get("/")
+async def root():
+    return {
+        "service": "production-api",
+        "status": "online",
+        "docs": "/docs",
+        "health": "/health"
+    }
 
 # Endpoints
 @app.post("/chat", response_model=ChatResponse)
